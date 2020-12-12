@@ -1,6 +1,6 @@
 #!/bin/bash
 
-import validityCheck
+from tools import validityCheck
 from colorama import Fore , Style
 
 def return_output(my_input_file, mydict, item_to_change):

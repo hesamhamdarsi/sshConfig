@@ -1,10 +1,10 @@
 #!/bin/bash
 
 import os
-import modfile
-import manualReader
-import validityCheck
-import output_to_write
+from tools import modfile
+from tools import manualReader
+from tools import validityCheck
+from tools import output_to_write
 from colorama import Fore , Style
 
 mydict = {}
@@ -19,8 +19,6 @@ mylist = fgraber.freader()
 
 
 def config_check():
-
-    #print(mylist)
     i = 1
     indicator = False
     try:
@@ -65,14 +63,14 @@ def config_check():
             print("--"*60)
             i += 1
     show_configs()
-    #print (mydict)
-
 
 def user_manual():
     result = False
     config_check()
     user_input = ""
     print(f"press {Fore.RED}q to quit{Style.RESET_ALL} or enter {Fore.YELLOW}index number{Style.RESET_ALL} to see the manual of selected item{Fore.YELLOW}(e.g. 12){Style.RESET_ALL}: ", end="")
+    print("0")
+    
     while True:
         if result:
             os.system('clear')
@@ -81,8 +79,9 @@ def user_manual():
             result = False
             print(f"{Fore.GREEN}press any key to continue!{Style.RESET_ALL}", end="")
             input()
+            mydict.clear()
             config_check()
-            print(f"press {Fore.RED}q to quit{Style.RESET_ALL} or enter index number to see the manual of selected item{Fore.YELLOW}(e.g. 12){Style.RESET_ALL}: ", end="")
+            print(f"press {Fore.RED}q to quit{Style.RESET_ALL} or enter {Fore.YELLOW}index number{Style.RESET_ALL} to see the manual of selected item{Fore.YELLOW}(e.g. 12){Style.RESET_ALL}: ", end="")
         else:
             while result == False:
                 user_input = input()
@@ -100,7 +99,6 @@ print("Answer: ", end="")
 x = input()
 if x == "1":
     #part1 -> show configs
-    
     os.system("clear")
     print(f"Select the configuration file {Fore.RED}(default is ssh){Style.RESET_ALL}: ", end="")
     selected = input()
@@ -116,9 +114,9 @@ if x == "1":
     
 
 elif x == "2":
+    #part2 -> Edit configs
     dic_chages = {}
     more_change = True
-    i = 0
     os.system('sudo cp /etc/ssh/ssh_config ./ssh-config-file.txt')
     os.system('sudo chown $USER:$USER ssh-config-file.txt')
     os.system('chmod +x ssh-config-file.txt')
@@ -127,7 +125,6 @@ elif x == "2":
     config_check()
     while more_change:
         print(f"Select the item that you want to edit {Fore.RED}(use the index number)!{Style.RESET_ALL} : ",end="")
-        #user_input = input()
         result = False
         while result == False:
             user_input = input()
@@ -143,12 +140,13 @@ elif x == "2":
         print("")
         print(f"the old config {Fore.GREEN}'{res_old}'{Style.RESET_ALL} will be converted to the new one {Fore.RED}'{res_new}'{Style.RESET_ALL}")
         
-        dic_key = str(i)
+        ##############
+        dic_key = item_to_change
         dic_chages[dic_key] = [oldtext , newtext]
-        i += 1
+        #i += 1
 
         print("")
-        print(f"More Change ????{Fore.RED}(yes/no){Style.RESET_ALL} : ",end="")
+        print(f"chane/edite item?{Fore.RED}(yes/no){Style.RESET_ALL} : ",end="")
         result = False
         while result == False:
             user_input = input()
