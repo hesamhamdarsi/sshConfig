@@ -1,4 +1,15 @@
 #!/bin/bash
+"""
+Explaintion of modules and classes:
+tools           -> the package name including all written modules for this program
+modefile        -> a module for working on the files including a class and some methods for read/append/write/edit
+manualReader    -> is a module to check and print the user manual of every single items in ssh_config file
+validityCheck   -> to check user input including a class and several methods for:
+-----------------> Digit check: if its in range, if its digit, etc
+-----------------> string check: if its in range, string, etc
+-----------------> Yes/No check
+output_to_write -> to make the changes ready to before writting to the file
+"""
 
 import os
 from tools import modfile
@@ -9,15 +20,22 @@ from colorama import Fore , Style
 
 mydict = {}
 
+#return dictionary key from value
 def get_dict_key(mydict, index_number):
     for key, _ in mydict.items():
         if str(index_number) == str(mydict[key]["index"]):
             return key
 
+#class fileGraber -> to read/write from/to a file 
 fgraber = modfile.fileGraber("/etc/ssh/ssh_config")
 mylist = fgraber.freader()
 
 
+'''
+function -> 
+to create a table from all configs of ssh_file 
+(enabled or disabled) and to display it to the usre
+'''
 def config_check():
     i = 1
     indicator = False
@@ -64,6 +82,10 @@ def config_check():
             i += 1
     show_configs()
 
+'''
+function -> 
+to explain about the config that user wants to change 
+'''
 def user_manual():
     result = False
     config_check()
@@ -89,6 +111,13 @@ def user_manual():
                 result = isvalidate.check_user_input_number(1,len(mydict))
         
 
+'''
+main body:
+we have options to:
+check the config file
+see the user manual of any item
+edit any item, set/unset, add new value, etc
+'''
 os.system("clear")
 print('What kind of Operations do you need?:')
 print("")
